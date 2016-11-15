@@ -90,16 +90,15 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-<<<<<<< HEAD
         if (id == R.id.nav_camera) {
             startActivity(new Intent(this, RunningActivity.class));
         } else if (id == R.id.nav_gallery) {
-=======
+
+        }
         if (id == R.id.medidor_item) {
             Intent intent = new Intent(this, MedidorActivity.class);
             startActivity(intent);
         } else if (id == R.id.estatistica_item) {
->>>>>>> 606152a9ae55d70547d4045860c409c1591de5d3
 
         } else if (id == R.id.calendario_item) {
             Intent intent = new Intent(this, CalendarioActivity.class);
