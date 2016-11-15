@@ -5,8 +5,6 @@ import android.widget.TextView;
 
 import java.util.TimerTask;
 
-import br.edu.ufabc.padm.cardioufabc.activities.RunningActivity;
-
 /**
  * Created by guilhermeosaka on 15/11/16.
  */

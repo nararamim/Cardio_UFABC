@@ -5,6 +5,7 @@ import android.graphics.*;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import com.androidplot.util.PixelUtils;
 import com.androidplot.xy.SimpleXYSeries;
@@ -31,6 +32,10 @@ public class MedidorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medidor);
 
+        String titulo = getIntent().getExtras().getString("titulo");
+
+        if (titulo != null && titulo != "")
+            ((TextView)findViewById(R.id.tituloTextView)).setText(titulo);
 
         // initialize our XYPlot reference:
         plot = (XYPlot) findViewById(R.id.plot);
