@@ -19,7 +19,7 @@ public class EstatisticaActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_estatistica);
 
         String[] activities_array = getResources().getStringArray(R.array.activities_list);
-        
+
     }
 }
 

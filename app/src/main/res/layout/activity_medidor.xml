@@ -4,6 +4,13 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
    >
+        <TextView
+            android:id="@+id/tituloTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:textColor="@color/ap_black"
+            android:paddingLeft="10dp" />
 
         <TextView
             android:layout_width="319dp"

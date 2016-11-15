@@ -15,9 +15,9 @@
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Celendário" />
         <item
-            android:id="@+id/atividade_item"
+            android:id="@+id/atividades_item"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Atividade" />
+            android:title="Atividades" />
     </group>
 
     <item android:title="Configurações">
