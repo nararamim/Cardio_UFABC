@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ap="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   >
+
+        <TextView
+            android:layout_width="319dp"
+            android:layout_height="100dp"
+            android:text=" Pressione o botão para começar a medir"
+            android:textSize="25dp"
+            android:paddingTop="10dp"
+            android:layout_gravity="center"
+            android:textAlignment="center"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Iniciar"
+            android:textSize="40dp"
+            android:layout_marginTop="10dp"
+            android:padding="20dp"
+            android:background="#FF6969"
+            android:textColor="#fff"
+            android:layout_gravity="center"/>
+
+        <com.androidplot.xy.XYPlot
+            style="@style/APDefacto.Light"
+            android:id="@+id/plot"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            ap:title="Frequência"
+            ap:rangeTitle="range"
+            ap:domainTitle="domain"
+            ap:lineLabels="left|bottom"
+            ap:lineLabelRotationBottom="-45"/>
+
+</LinearLayout>

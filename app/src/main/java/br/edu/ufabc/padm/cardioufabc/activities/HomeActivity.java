@@ -19,6 +19,13 @@ import br.edu.ufabc.padm.cardioufabc.R;
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+
+    public void iniciarMedicao(View view) {
+        Intent intent = new Intent(this, MedidorActivity.class);
+
+        startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,17 +90,28 @@ public class HomeActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+<<<<<<< HEAD
         if (id == R.id.nav_camera) {
             startActivity(new Intent(this, RunningActivity.class));
         } else if (id == R.id.nav_gallery) {
+=======
+        if (id == R.id.medidor_item) {
+            Intent intent = new Intent(this, MedidorActivity.class);
+            startActivity(intent);
+        } else if (id == R.id.estatistica_item) {
+>>>>>>> 606152a9ae55d70547d4045860c409c1591de5d3
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.calendario_item) {
+            Intent intent = new Intent(this, CalendarioActivity.class);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.atividade_item) {
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.config_item) {
+            Intent intent = new Intent(this, ConfigActivity.class);
+            startActivity(intent);
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.comp_item) {
 
         }
 
