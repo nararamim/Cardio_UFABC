@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="activities_list">
+        <item>Corrida</item>
+
+        <item>Andar de Skate</item>
+
+        <item>Almoço com o chrush</item>
+
+    </string-array>
+</resources>
