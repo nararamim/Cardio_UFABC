@@ -96,7 +96,6 @@ public class HomeActivity extends AppCompatActivity
         } else if (id == R.id.estatistica_item) {
             Intent intent = new Intent(this, EstatisticaActivity.class);
             startActivity(intent);
-
         } else if (id == R.id.calendario_item) {
             Intent intent = new Intent(this, CalendarioActivity.class);
             startActivity(intent);

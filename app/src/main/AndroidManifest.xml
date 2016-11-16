@@ -37,43 +37,10 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBHvcylSQVHFqg488NFg3BXFC5lPgKzOQ4" />
 
-        <activity
-            android:name=".activities.MedidorActivity"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".activities.CalendarioActivity"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".activities.ConfigActivity"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activities.EstatisticaActivity"
-            android:label="@string/app_name"
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-
-        </activity>
+        <activity android:name=".activities.MedidorActivity" />
+        <activity android:name=".activities.CalendarioActivity" />
+        <activity android:name=".activities.ConfigActivity" />
+        <activity android:name=".activities.EstatisticaActivity" />
         <activity android:name=".activities.AtividadesActivity" />
         <activity android:name=".activities.CriarAtividadeActivity" />
 
