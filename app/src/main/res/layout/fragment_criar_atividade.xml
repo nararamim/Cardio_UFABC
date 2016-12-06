@@ -1,0 +1,54 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="br.edu.ufabc.padm.cardioufabc.views.CriarAtividadeFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <EditText
+        android:id="@+id/titulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/titulo_label"
+        android:layout_margin="15dp"
+        android:background="@android:color/transparent" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:background="#ddd"/>
+
+    <CheckedTextView
+        android:id="@+id/corrida"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/corrida_label"
+        android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+        android:layout_margin="15dp"
+        android:paddingTop="5dp"
+        android:checked="true" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1px"
+        android:background="#ddd"/>
+
+    <EditText
+        android:id="@+id/descricao"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:inputType="textMultiLine"
+        android:hint="@string/descricao_label"
+        android:gravity="top"
+        android:layout_margin="15dp"
+        android:background="@android:color/transparent" />
+
+    <Button
+        android:id="@+id/proximo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/proximo"></Button>
+
+</LinearLayout>
