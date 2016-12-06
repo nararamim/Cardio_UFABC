@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="create_table_atividade">
+        CREATE TABLE atividade (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            titulo TEXT NOT NULL,
+            descricao TEXT NOT NULL,
+            dataHoraInicio DATETIME NOT NULL,
+            dataHoraFim DATETIME NOT NULL,
+            bpm INTEGER NOT NULL
+        );
+    </string>
+
+    <string name="drop_table_atividade">
+        DROP TABLE IF EXISTS atividade;
+    </string>
+
+    <string name="count_atividade">
+        SELECT COUNT(*) FROM atividade;
+    </string>
+
+    <string name="insert_atividade">
+        INSERT INTO atividade (titulo, descricao, dataHoraInicio, dataHoraFim, bpm) VALUES (?, ?, ?, ?, ?);
+    </string>
+
+    <string name="get_atividade_by_id">
+        SELECT * FROM atividade WHERE id = ?;
+    </string>
+
+    <string name="update_atividade">
+        UPDATE atividade SET titulo = ?, descricao = ?, dataHoraInicio = ?, dataHoraFim = ?, bpm = ? WHERE id = ?
+    </string>
+
+    <string name="list_atividade">
+        SELECT * FROM atividade;
+    </string>
+</resources>

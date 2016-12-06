@@ -8,11 +8,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteStatement;
 import android.util.Log;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import br.edu.ufabc.padm.cardioufabc.R;
+import br.edu.ufabc.padm.cardioufabc.helpers.Util;
 
 public class AtividadeDAO extends SQLiteOpenHelper {
     private static AtividadeDAO instance;
@@ -91,8 +93,8 @@ public class AtividadeDAO extends SQLiteOpenHelper {
 
             statement.bindString(1, atividade.getTitulo());
             statement.bindString(2, atividade.getDescricao());
-            statement.bindString(3, atividade.getDataHoraInicio().toString());
-            statement.bindString(4, atividade.getDataHoraFim().toString());
+            statement.bindString(3, Util.formatFromDate(atividade.getDataHoraInicio(), context.getString(R.string.format_datetime_global)));
+            statement.bindString(4, Util.formatFromDate(atividade.getDataHoraFim(), context.getString(R.string.format_datetime_global)));
             statement.bindLong(5, atividade.getBpm());
             statement.execute();
         } catch (SQLiteException e) {
@@ -115,8 +117,8 @@ public class AtividadeDAO extends SQLiteOpenHelper {
             atividade.setId(cursor.getLong(0));
             atividade.setTitulo(cursor.getString(1));
             atividade.setDescricao(cursor.getString(2));
-            atividade.setDataHoraInicio(null); // usar joda time
-            atividade.setDataHoraFim(null); // usar joda time
+            atividade.setDataHoraInicio(Util.formatToDate(cursor.getString(3), context.getString(R.string.format_datetime_global)));
+            atividade.setDataHoraFim(Util.formatToDate(cursor.getString(4), context.getString(R.string.format_datetime_global)));
             atividade.setBpm(cursor.getLong(5));
         } catch (SQLiteException e) {
             Log.e(LOGTAG, "Failed to get atividade from the database", e);
@@ -134,8 +136,8 @@ public class AtividadeDAO extends SQLiteOpenHelper {
 
             statement.bindString(1, atividade.getTitulo());
             statement.bindString(2, atividade.getDescricao());
-            statement.bindString(3, atividade.getDataHoraInicio().toString());
-            statement.bindString(4, atividade.getDataHoraFim().toString());
+            statement.bindString(3, Util.formatFromDate(atividade.getDataHoraInicio(), context.getString(R.string.format_datetime_global)));
+            statement.bindString(4, Util.formatFromDate(atividade.getDataHoraFim(), context.getString(R.string.format_datetime_global)));
             statement.bindLong(5, atividade.getBpm());
             statement.bindLong(6, atividade.getId());
             statement.execute();
@@ -161,8 +163,8 @@ public class AtividadeDAO extends SQLiteOpenHelper {
                 atividade.setId(cursor.getLong(0));
                 atividade.setTitulo(cursor.getString(1));
                 atividade.setDescricao(cursor.getString(2));
-                atividade.setDataHoraInicio(null); // usar joda time
-                atividade.setDataHoraFim(null); // usar joda time
+                atividade.setDataHoraInicio(Util.formatToDate(cursor.getString(3), context.getString(R.string.format_datetime_global)));
+                atividade.setDataHoraFim(Util.formatToDate(cursor.getString(4), context.getString(R.string.format_datetime_global)));
                 atividade.setBpm(cursor.getLong(5));
                 atividades.add(atividade);
                 cursor.moveToNext();
