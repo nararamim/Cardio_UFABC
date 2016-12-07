@@ -23,6 +23,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -43,9 +44,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import br.edu.ufabc.padm.cardioufabc.helpers.Permission;
+import br.edu.ufabc.padm.cardioufabc.helpers.Util;
+import br.edu.ufabc.padm.cardioufabc.models.Atividade;
+import br.edu.ufabc.padm.cardioufabc.models.AtividadeDAO;
 import br.edu.ufabc.padm.cardioufabc.views.AtividadesFragment;
 import br.edu.ufabc.padm.cardioufabc.views.CalendarioFragment;
 import br.edu.ufabc.padm.cardioufabc.views.CriarAtividadeFragment;
@@ -108,6 +113,14 @@ public class MainActivity extends Activity {
         if (savedInstanceState == null) {
             selectItem(0);
         }
+
+
+
+        Atividade atividade = null;
+
+        atividade = atividade.getId(1);
+
+        ((TextView)findViewById(R.id.last_btm)).setText(atividade.getBpm());
     }
 
     @Override
@@ -203,6 +216,15 @@ public class MainActivity extends Activity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    public void iniciarMedicao(View view) {
+        Fragment fragment = null;
+
+        fragment = new MedidorFragment();
+
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
     }
 
     @Override

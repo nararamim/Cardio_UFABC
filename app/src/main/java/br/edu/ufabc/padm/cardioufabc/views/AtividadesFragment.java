@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
@@ -39,6 +40,17 @@ public class AtividadesFragment extends Fragment {
 
         atividadesListView = (ListView)view.findViewById(R.id.atividades);
         atividadesListView.setAdapter(new AtividadeAdapter(getActivity()));
+
+        atividadesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Fragment fragment = null;
+                fragment = new ShowAtividadeFragment();
+
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
+            }
+        });
 
         criarAtividadeButton = (ImageButton)view.findViewById(R.id.criar_atividade);
         criarAtividadeButton.setOnClickListener(new View.OnClickListener() {
