@@ -5,17 +5,31 @@
     android:orientation="vertical"
     tools:context="br.edu.ufabc.padm.cardioufabc.views.CorridaFragment">
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        android:name="com.google.android.gms.maps.MapFragment"
-        android:id="@+id/map"
+    <TextView
+        android:id="@+id/titulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center"
+        android:hint="Título"
+        android:textSize="12pt"
+        android:padding="5pt" />
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"/>
 
     <Button
-        android:id="@+id/criarAtividadeFake"
+        android:id="@+id/action_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Criar atividade fake"/>
+        android:text="@string/iniciar"
+        android:background="#41A85F"
+        android:textColor="@color/ap_white"
+        android:textSize="12pt"
+        android:paddingLeft="5pt"
+        android:paddingRight="20pt"
+        android:drawableLeft="@drawable/ic_play"/>
 
 </LinearLayout>

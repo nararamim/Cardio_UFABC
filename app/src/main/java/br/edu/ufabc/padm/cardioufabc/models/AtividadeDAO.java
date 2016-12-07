@@ -36,11 +36,13 @@ public class AtividadeDAO extends SQLiteOpenHelper {
 
     private Context context;
     private SQLiteDatabase db;
+    private LocationDAO locationDAO;
 
     protected AtividadeDAO(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
         this.db = getWritableDatabase();
+        this.locationDAO = LocationDAO.getInstance(context);
     }
 
     @Override
@@ -96,7 +98,8 @@ public class AtividadeDAO extends SQLiteOpenHelper {
             statement.bindString(3, Util.formatFromDate(atividade.getDataHoraInicio(), context.getString(R.string.format_datetime_global)));
             statement.bindString(4, Util.formatFromDate(atividade.getDataHoraFim(), context.getString(R.string.format_datetime_global)));
             statement.bindLong(5, atividade.getBpm());
-            statement.execute();
+            long id = statement.executeInsert();
+            locationDAO.create(id, atividade.getLocations());
         } catch (SQLiteException e) {
             Log.e(LOGTAG, "Failed to insert atividade in the database", e);
             status = false;
@@ -113,13 +116,14 @@ public class AtividadeDAO extends SQLiteOpenHelper {
             Cursor cursor = db.rawQuery(queryStr, new String[] { String.valueOf(id) } );
 
             cursor.moveToFirst();
-            atividade = new Atividade();
-            atividade.setId(cursor.getLong(0));
-            atividade.setTitulo(cursor.getString(1));
-            atividade.setDescricao(cursor.getString(2));
-            atividade.setDataHoraInicio(Util.formatToDate(cursor.getString(3), context.getString(R.string.format_datetime_global)));
-            atividade.setDataHoraFim(Util.formatToDate(cursor.getString(4), context.getString(R.string.format_datetime_global)));
-            atividade.setBpm(cursor.getLong(5));
+//            atividade = new Atividade();
+//            atividade.setId(cursor.getLong(0));
+//            atividade.setTitulo(cursor.getString(1));
+//            atividade.setDescricao(cursor.getString(2));
+//            atividade.setDataHoraInicio(Util.formatToDate(cursor.getString(3), context.getString(R.string.format_datetime_global)));
+//            atividade.setDataHoraFim(Util.formatToDate(cursor.getString(4), context.getString(R.string.format_datetime_global)));
+//            atividade.setBpm(cursor.getLong(5));
+            atividade = convert(cursor);
         } catch (SQLiteException e) {
             Log.e(LOGTAG, "Failed to get atividade from the database", e);
         }
@@ -159,14 +163,14 @@ public class AtividadeDAO extends SQLiteOpenHelper {
 
             cursor.moveToFirst();
             while(!cursor.isAfterLast()) {
-                Atividade atividade = new Atividade();
-                atividade.setId(cursor.getLong(0));
-                atividade.setTitulo(cursor.getString(1));
-                atividade.setDescricao(cursor.getString(2));
-                atividade.setDataHoraInicio(Util.formatToDate(cursor.getString(3), context.getString(R.string.format_datetime_global)));
-                atividade.setDataHoraFim(Util.formatToDate(cursor.getString(4), context.getString(R.string.format_datetime_global)));
-                atividade.setBpm(cursor.getLong(5));
-                atividades.add(atividade);
+//                Atividade atividade = new Atividade();
+//                atividade.setId(cursor.getLong(0));
+//                atividade.setTitulo(cursor.getString(1));
+//                atividade.setDescricao(cursor.getString(2));
+//                atividade.setDataHoraInicio(Util.formatToDate(cursor.getString(3), context.getString(R.string.format_datetime_global)));
+//                atividade.setDataHoraFim(Util.formatToDate(cursor.getString(4), context.getString(R.string.format_datetime_global)));
+//                atividade.setBpm(cursor.getLong(5));
+                atividades.add(convert(cursor));
                 cursor.moveToNext();
             }
             cursor.close();
@@ -177,40 +181,15 @@ public class AtividadeDAO extends SQLiteOpenHelper {
         return atividades;
     }
 
-//    private void loadTestData() {
-//        Atividade atividadeA = new Atividade();
-//        atividadeA.setTitulo("Estudando PADM");
-//        atividadeA.setDescricao("Estudando PADM deitado");
-//        atividadeA.setDataHoraInicio(new Date(2016, 9, 20, 16, 0, 0));
-//        atividadeA.setDataHoraFim(new Date(2016, 9, 20, 17, 0, 0));
-//        atividadeA.setBpm(60);
-//        atividades.add(atividadeA);
-//
-//        Atividade atividadeB = new Atividade();
-//        atividadeB.setTitulo("Estudando PADM");
-//        atividadeB.setDescricao("Estudando PADM sentado");
-//        atividadeB.setDataHoraInicio(new Date(2016, 9, 21, 16, 0, 0));
-//        atividadeB.setDataHoraFim(new Date(2016, 9, 21, 16, 30, 0));
-//        atividadeB.setBpm(80);
-//        atividades.add(atividadeB);
-//
-//        Atividade atividadeC = new Atividade();
-//        atividadeC.setTitulo("Estudando PADM");
-//        atividadeC.setDescricao("Estudando PADM em pé");
-//        atividadeC.setDataHoraInicio(new Date(2016, 9, 22, 16, 0, 0));
-//        atividadeC.setDataHoraFim(new Date(2016, 9, 22, 16, 15, 0));
-//        atividadeC.setBpm(100);
-//        atividades.add(atividadeC);
-//    }
-//    public int size() {
-//        return atividades.size();
-//    }
-//
-//    public Atividade get(int i) {
-//        return atividades.get(i);
-//    }
-//
-//    public Atividade getLast() {
-//        return atividades.get(atividades.size() - 1);
-//    }
+    private Atividade convert(Cursor cursor) {
+        Atividade atividade = new Atividade();
+        atividade.setId(cursor.getLong(0));
+        atividade.setTitulo(cursor.getString(1));
+        atividade.setDescricao(cursor.getString(2));
+        atividade.setDataHoraInicio(Util.formatToDate(cursor.getString(3), context.getString(R.string.format_datetime_global)));
+        atividade.setDataHoraFim(Util.formatToDate(cursor.getString(4), context.getString(R.string.format_datetime_global)));
+        atividade.setBpm(cursor.getLong(5));
+        atividade.setLocations(locationDAO.getByAtividadeId(atividade.getId()));
+        return atividade;
+    }
 }

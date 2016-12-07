@@ -8,6 +8,9 @@
     <string name="corrida_label">Corrida</string>
     <string name="proximo">Próximo</string>
 
+    <string name="iniciar">INICIAR</string>
+    <string name="parar">PARAR</string>
+    <string name="ok">OK</string>
     <!-- Formato de datas -->
     <string name="format_datetime_global">yyyy-MM-dd HH:mm:ss</string>
     <string name="format_datetime">dd/MM/yyyy HH:mm:ss</string>
@@ -16,6 +19,10 @@
 
     <string name="bpm">bpm</string>
     <string name="criar_atividade">Criar atividade</string>
+
+    <!-- Permissões -->
+    <string name="location_rationale">Para iniciar a atividade corrida é necessário habilitar a localização</string>
+    <string name="why_location">Para utilizar o serviço corrida é necessário habilitar a localização (Acesse o App Info para habilitar)</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

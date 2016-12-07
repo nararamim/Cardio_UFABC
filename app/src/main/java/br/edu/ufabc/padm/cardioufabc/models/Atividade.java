@@ -1,6 +1,9 @@
 package br.edu.ufabc.padm.cardioufabc.models;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.Date;
+import java.util.List;
 
 public class Atividade {
     private long id;
@@ -10,6 +13,7 @@ public class Atividade {
     private Date dataHoraFim;
     private long bpm; // batimentos por minuto
     // informação do gps (descobrir a estrutura de dados capturado pelo gps para armazenar o caminho)
+    private List<LatLng> locations;
 
     public String getDescricao() {
         return descricao;
@@ -58,4 +62,8 @@ public class Atividade {
     public void setBpm(long bpm) {
         this.bpm = bpm;
     }
+
+    public List<LatLng> getLocations() { return locations; }
+
+    public void setLocations(List<LatLng> locations) { this.locations = locations; }
 }

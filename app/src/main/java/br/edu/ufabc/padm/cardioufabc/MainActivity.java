@@ -24,9 +24,12 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
@@ -42,6 +45,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import br.edu.ufabc.padm.cardioufabc.helpers.Permission;
 import br.edu.ufabc.padm.cardioufabc.views.AtividadesFragment;
 import br.edu.ufabc.padm.cardioufabc.views.CalendarioFragment;
 import br.edu.ufabc.padm.cardioufabc.views.CriarAtividadeFragment;
@@ -50,6 +54,9 @@ import br.edu.ufabc.padm.cardioufabc.views.HomeFragment;
 import br.edu.ufabc.padm.cardioufabc.views.MedidorFragment;
 
 public class MainActivity extends Activity {
+    public static volatile Permission.Permissible permissible;
+    private static final int WRITE_EXTERNAL_STORAGE_REQ_CODE = 0;
+
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -195,6 +202,26 @@ public class MainActivity extends Activity {
             manager.popBackStack();
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == WRITE_EXTERNAL_STORAGE_REQ_CODE) {
+            // como as permissões são solicitadas individualmente, basta verificar apenas o primeiro
+            if (grantResults.length > 0) {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    permissible.onPermissionGranted(permissions[0]);
+                } else if (grantResults[0] == PackageManager.PERMISSION_DENIED) {
+                    boolean showRationale = ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[0]);
+                    // "never ask again" habilitado
+                    if (!showRationale) {
+                        permissible.onNeverAskAgain(permissions[0]);
+                    }
+                }
+            }
         }
     }
 }
