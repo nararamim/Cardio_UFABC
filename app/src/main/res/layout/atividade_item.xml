@@ -21,7 +21,9 @@
                 android:id="@+id/horaInicio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="hh:MM:ss"/>
+                android:hint="hh:MM:ss"
+                android:padding="0pt"
+                android:layout_marginRight="-3pt"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

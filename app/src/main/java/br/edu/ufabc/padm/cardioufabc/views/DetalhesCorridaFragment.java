@@ -15,7 +15,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.PolylineOptions;
-import com.google.android.gms.vision.text.Text;
 
 import br.edu.ufabc.padm.cardioufabc.R;
 import br.edu.ufabc.padm.cardioufabc.helpers.Util;
