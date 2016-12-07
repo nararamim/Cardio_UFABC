@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.app.FragmentManager;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,21 +32,29 @@ import br.edu.ufabc.padm.cardioufabc.R;
 import br.edu.ufabc.padm.cardioufabc.helpers.Permission;
 import br.edu.ufabc.padm.cardioufabc.models.Atividade;
 import br.edu.ufabc.padm.cardioufabc.models.AtividadeDAO;
+import br.edu.ufabc.padm.cardioufabc.services.HeartRateService;
 import br.edu.ufabc.padm.cardioufabc.services.LocationService;
 
 public class CorridaFragment extends Fragment {
     private static final String LOGTAG = CorridaFragment.class.getSimpleName();
 
     private TextView tituloTextView;
+    private TextView bpmTextView;
     private MapView mapView;
     private GoogleMap googleMap;
     private Button actionButton;
 
     private boolean iniciado;
     private List<LatLng> locations;
+    private List<Integer> heartRates;
 
-    private Intent service;
-    private LocationReceiver receiver;
+    // localização
+    private Intent locationService;
+    private LocationReceiver locationReceiver;
+
+    // batimentos cardíacos por minuto
+    private Intent heartRateService;
+    private HeartRateReceiver heartRateReceiver;
 
     private AtividadeDAO dao;
     private Atividade atividade;
@@ -58,20 +67,21 @@ public class CorridaFragment extends Fragment {
 
         iniciado = false;
         locations = new ArrayList<>();
+        heartRates = new ArrayList<>();
         atividade = new Atividade();
         Bundle args = getArguments();
-        System.out.println("CorridaFragment: " + args.getString("Titulo"));
         atividade.setTitulo(args.getString("Titulo"));
         atividade.setDescricao(args.getString("Descricao"));
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_corrida, container, false);
 
         tituloTextView = (TextView)view.findViewById(R.id.titulo);
         tituloTextView.setText(atividade.getTitulo());
+
+        bpmTextView = (TextView)view.findViewById(R.id.bpm);
 
         initGoogleMap(view, savedInstanceState);
 
@@ -82,15 +92,19 @@ public class CorridaFragment extends Fragment {
                 if (iniciado) { // parar
                     atividade.setDataHoraFim(new Date());
                     atividade.setLocations(locations);
+                    atividade.setHeartRates(heartRates);
                     iniciado = false;
                     LocationService.running = false;
-                    dao.create(atividade);
+                    long id = dao.create(atividade);
+
+                    irParaDetalhesCorrida(id);
                 } else { // iniciar
                     atividade.setDataHoraInicio(new Date());
                     iniciado = true;
                     actionButton.setText(R.string.parar);
                     actionButton.setBackgroundColor(0xFFE25041);
                     actionButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_stop, 0, 0, 0);
+                    startHeartRateService();
                 }
             }
         });
@@ -111,26 +125,45 @@ public class CorridaFragment extends Fragment {
 
         mapView.getMapAsync(new OnMapReadyCallback() {
             @Override
-            public void onMapReady(GoogleMap gMap) {
-                googleMap = gMap;
+            public void onMapReady(GoogleMap gm) {
+                googleMap = gm;
 
                 try {
                     googleMap.setMyLocationEnabled(true);
+
+                    startLocationService();
                 } catch (SecurityException e) {
                     Log.e(LOGTAG, "Permissão negada", e);
                 }
-
-                startLocationService();
             }
         });
     }
 
     private void startLocationService() {
-        receiver = new LocationReceiver();
+        locationReceiver = new LocationReceiver();
         IntentFilter filter = new IntentFilter(LocationService.LOCATION_CHANGED);
-        LocalBroadcastManager.getInstance(getActivity().getBaseContext()).registerReceiver(receiver, filter);
-        service = new Intent(getActivity().getBaseContext(), LocationService.class);
-        getActivity().getBaseContext().startService(service);
+        LocalBroadcastManager.getInstance(getActivity().getBaseContext()).registerReceiver(locationReceiver, filter);
+        locationService = new Intent(getActivity().getBaseContext(), LocationService.class);
+        getActivity().getBaseContext().startService(locationService);
+    }
+
+    private void startHeartRateService() {
+        heartRateReceiver = new HeartRateReceiver();
+        IntentFilter filter = new IntentFilter(HeartRateService.HEART_RATE_CHANGED);
+        LocalBroadcastManager.getInstance(getActivity().getBaseContext()).registerReceiver(heartRateReceiver, filter);
+        heartRateService = new Intent(getActivity().getBaseContext(), HeartRateService.class);
+        getActivity().getBaseContext().startService(heartRateService);
+    }
+
+    private void irParaDetalhesCorrida(long id) {
+        Bundle args = new Bundle();
+        args.putLong("id", id);
+        DetalhesCorridaFragment fragment = new DetalhesCorridaFragment();
+        fragment.setArguments(args);
+
+        getActivity().setTitle("Detalhes Corrida");
+        FragmentManager fragmentManager = getActivity().getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
     }
 
     @Override
@@ -166,7 +199,6 @@ public class CorridaFragment extends Fragment {
                 double longitude = intent.getDoubleExtra("Longitude", 0);
                 LatLng latLng = new LatLng(latitude, longitude);
                 if(googleMap != null){
-                    System.out.println("not null");
                     googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16.0f));
                     if (iniciado) {
                         if (locations.size() > 0) {
@@ -174,9 +206,19 @@ public class CorridaFragment extends Fragment {
                         }
                         locations.add(latLng);
                     }
-                } else {
-                    System.out.println("null");
                 }
+            }
+        }
+    }
+
+    private class HeartRateReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(HeartRateService.HEART_RATE_CHANGED)) {
+                int hr = intent.getIntExtra("HeartRate", 0);
+                heartRates.add(hr);
+                bpmTextView.setText(hr + " bpm");
             }
         }
     }

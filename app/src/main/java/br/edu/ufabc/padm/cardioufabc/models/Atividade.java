@@ -11,9 +11,8 @@ public class Atividade {
     private String descricao;
     private Date dataHoraInicio;
     private Date dataHoraFim;
-    private long bpm; // batimentos por minuto
-    // informação do gps (descobrir a estrutura de dados capturado pelo gps para armazenar o caminho)
     private List<LatLng> locations;
+    private List<Integer> heartRates;
 
     public String getDescricao() {
         return descricao;
@@ -55,15 +54,47 @@ public class Atividade {
         this.dataHoraFim = dataHoraFim;
     }
 
-    public long getBpm() {
-        return bpm;
-    }
-
-    public void setBpm(long bpm) {
-        this.bpm = bpm;
-    }
-
     public List<LatLng> getLocations() { return locations; }
 
     public void setLocations(List<LatLng> locations) { this.locations = locations; }
+
+    public List<Integer> getHeartRates() { return heartRates; }
+
+    public void setHeartRates(List<Integer> heartRates) {
+        this.heartRates = heartRates;
+    }
+
+    public int getBpm() {
+        if (heartRates.size() > 0) {
+            int sum = 0;
+
+            for (int heartRate : heartRates) {
+                sum += heartRate;
+            }
+
+            return sum / heartRates.size();
+        } else {
+            return 0;
+        }
+    }
+
+    public int getMaxBpm() {
+        int max = 0;
+
+        for (int heartRate : heartRates) {
+            max = (heartRate > max) ? heartRate : max;
+        }
+
+        return max;
+    }
+
+    public int getMinBpm() {
+        int min = 0;
+
+        for (int heartRate : heartRates) {
+            min = (min == 0 || min > heartRate) ? heartRate : min;
+        }
+
+        return min;
+    }
 }

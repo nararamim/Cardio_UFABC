@@ -37,12 +37,14 @@ public class AtividadeDAO extends SQLiteOpenHelper {
     private Context context;
     private SQLiteDatabase db;
     private LocationDAO locationDAO;
+    private HeartRateDAO heartRateDAO;
 
     protected AtividadeDAO(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
         this.db = getWritableDatabase();
         this.locationDAO = LocationDAO.getInstance(context);
+        this.heartRateDAO = HeartRateDAO.getInstance(context);
     }
 
     @Override
@@ -86,9 +88,10 @@ public class AtividadeDAO extends SQLiteOpenHelper {
         return count;
     }
 
-    public boolean create(Atividade atividade) {
+    // retorna o id do registro inserido
+    public long create(Atividade atividade) {
         String queryStr = context.getString(R.string.insert_atividade);
-        boolean status = true;
+        long id = 0;
 
         try {
             SQLiteStatement statement = db.compileStatement(queryStr);
@@ -97,15 +100,14 @@ public class AtividadeDAO extends SQLiteOpenHelper {
             statement.bindString(2, atividade.getDescricao());
             statement.bindString(3, Util.formatFromDate(atividade.getDataHoraInicio(), context.getString(R.string.format_datetime_global)));
             statement.bindString(4, Util.formatFromDate(atividade.getDataHoraFim(), context.getString(R.string.format_datetime_global)));
-            statement.bindLong(5, atividade.getBpm());
-            long id = statement.executeInsert();
+            id = statement.executeInsert();
             locationDAO.create(id, atividade.getLocations());
+            heartRateDAO.create(id, atividade.getHeartRates());
         } catch (SQLiteException e) {
             Log.e(LOGTAG, "Failed to insert atividade in the database", e);
-            status = false;
         }
 
-        return status;
+        return id;
     }
 
     public Atividade getById(long id) {
@@ -116,13 +118,6 @@ public class AtividadeDAO extends SQLiteOpenHelper {
             Cursor cursor = db.rawQuery(queryStr, new String[] { String.valueOf(id) } );
 
             cursor.moveToFirst();
-//            atividade = new Atividade();
-//            atividade.setId(cursor.getLong(0));
-//            atividade.setTitulo(cursor.getString(1));
-//            atividade.setDescricao(cursor.getString(2));
-//            atividade.setDataHoraInicio(Util.formatToDate(cursor.getString(3), context.getString(R.string.format_datetime_global)));
-//            atividade.setDataHoraFim(Util.formatToDate(cursor.getString(4), context.getString(R.string.format_datetime_global)));
-//            atividade.setBpm(cursor.getLong(5));
             atividade = convert(cursor);
         } catch (SQLiteException e) {
             Log.e(LOGTAG, "Failed to get atividade from the database", e);
@@ -142,8 +137,7 @@ public class AtividadeDAO extends SQLiteOpenHelper {
             statement.bindString(2, atividade.getDescricao());
             statement.bindString(3, Util.formatFromDate(atividade.getDataHoraInicio(), context.getString(R.string.format_datetime_global)));
             statement.bindString(4, Util.formatFromDate(atividade.getDataHoraFim(), context.getString(R.string.format_datetime_global)));
-            statement.bindLong(5, atividade.getBpm());
-            statement.bindLong(6, atividade.getId());
+            statement.bindLong(5, atividade.getId());
             statement.execute();
         } catch (SQLiteException e) {
             Log.e(LOGTAG, "Failed to update atividade in the database", e);
@@ -163,13 +157,6 @@ public class AtividadeDAO extends SQLiteOpenHelper {
 
             cursor.moveToFirst();
             while(!cursor.isAfterLast()) {
-//                Atividade atividade = new Atividade();
-//                atividade.setId(cursor.getLong(0));
-//                atividade.setTitulo(cursor.getString(1));
-//                atividade.setDescricao(cursor.getString(2));
-//                atividade.setDataHoraInicio(Util.formatToDate(cursor.getString(3), context.getString(R.string.format_datetime_global)));
-//                atividade.setDataHoraFim(Util.formatToDate(cursor.getString(4), context.getString(R.string.format_datetime_global)));
-//                atividade.setBpm(cursor.getLong(5));
                 atividades.add(convert(cursor));
                 cursor.moveToNext();
             }
@@ -188,8 +175,8 @@ public class AtividadeDAO extends SQLiteOpenHelper {
         atividade.setDescricao(cursor.getString(2));
         atividade.setDataHoraInicio(Util.formatToDate(cursor.getString(3), context.getString(R.string.format_datetime_global)));
         atividade.setDataHoraFim(Util.formatToDate(cursor.getString(4), context.getString(R.string.format_datetime_global)));
-        atividade.setBpm(cursor.getLong(5));
         atividade.setLocations(locationDAO.getByAtividadeId(atividade.getId()));
+        atividade.setHeartRates(heartRateDAO.getByAtividadeId(atividade.getId()));
         return atividade;
     }
 }

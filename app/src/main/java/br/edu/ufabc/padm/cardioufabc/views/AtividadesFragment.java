@@ -17,6 +17,7 @@ import android.widget.ListView;
 
 import br.edu.ufabc.padm.cardioufabc.R;
 import br.edu.ufabc.padm.cardioufabc.adapters.AtividadeAdapter;
+import br.edu.ufabc.padm.cardioufabc.models.Atividade;
 
 public class AtividadesFragment extends Fragment {
     private ListView atividadesListView;
@@ -38,8 +39,18 @@ public class AtividadesFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_atividades, container, false);
 
+        final AtividadeAdapter adapter = new AtividadeAdapter(getActivity());
         atividadesListView = (ListView)view.findViewById(R.id.atividades);
-        atividadesListView.setAdapter(new AtividadeAdapter(getActivity()));
+        atividadesListView.setAdapter(adapter);
+
+        atividadesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Atividade atividade = (Atividade) adapter.getItem(position);
+
+                irParaDetalhesCorrida(atividade.getId());
+            }
+        });
 
         atividadesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -93,5 +104,16 @@ public class AtividadesFragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void irParaDetalhesCorrida(long id) {
+        Bundle args = new Bundle();
+        args.putLong("id", id);
+        DetalhesCorridaFragment fragment = new DetalhesCorridaFragment();
+        fragment.setArguments(args);
+
+        getActivity().setTitle("Detalhes Corrida");
+        FragmentManager fragmentManager = getActivity().getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
     }
 }

@@ -20,16 +20,28 @@
         android:layout_height="0dp"
         android:layout_weight="1"/>
 
-    <Button
-        android:id="@+id/action_button"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/iniciar"
-        android:background="#41A85F"
-        android:textColor="@color/ap_white"
-        android:textSize="12pt"
-        android:paddingLeft="5pt"
-        android:paddingRight="20pt"
-        android:drawableLeft="@drawable/ic_play"/>
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/action_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/iniciar"
+            android:background="#41A85F"
+            android:textColor="@color/ap_white"
+            android:textSize="12pt"
+            android:paddingLeft="5pt"
+            android:paddingRight="20pt"
+            android:drawableLeft="@drawable/ic_play"/>
+        <TextView
+            android:id="@+id/bpm"
+            android:layout_width="match_parent"
+            android:layout_height="22pt"
+            android:textSize="12pt"
+            android:paddingRight="5pt"
+            android:gravity="right|center"
+            android:textColor="#FFFFFF"/>
+    </RelativeLayout>
 
 </LinearLayout>
