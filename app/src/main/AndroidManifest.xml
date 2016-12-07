@@ -39,6 +39,10 @@ android:versionName="1.0">
             android:name=".services.LocationService"
             android:exported="false" >
         </service>
+        <service
+            android:name=".services.HeartRateService"
+            android:exported="false" >
+        </service>
 
     </application>
 

@@ -6,8 +6,7 @@
             titulo TEXT NOT NULL,
             descricao TEXT NOT NULL,
             dataHoraInicio DATETIME NOT NULL,
-            dataHoraFim DATETIME NOT NULL,
-            bpm INTEGER NOT NULL
+            dataHoraFim DATETIME NOT NULL
         );
     </string>
 
@@ -20,7 +19,7 @@
     </string>
 
     <string name="insert_atividade">
-        INSERT INTO atividade (titulo, descricao, dataHoraInicio, dataHoraFim, bpm) VALUES (?, ?, ?, ?, ?);
+        INSERT INTO atividade (titulo, descricao, dataHoraInicio, dataHoraFim) VALUES (?, ?, ?, ?);
     </string>
 
     <string name="get_atividade_by_id">
@@ -28,7 +27,7 @@
     </string>
 
     <string name="update_atividade">
-        UPDATE atividade SET titulo = ?, descricao = ?, dataHoraInicio = ?, dataHoraFim = ?, bpm = ? WHERE id = ?
+        UPDATE atividade SET titulo = ?, descricao = ?, dataHoraInicio = ?, dataHoraFim = ? WHERE id = ?
     </string>
 
     <string name="list_atividade">

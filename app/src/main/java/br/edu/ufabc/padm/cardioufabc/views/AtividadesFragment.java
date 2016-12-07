@@ -11,11 +11,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 
 import br.edu.ufabc.padm.cardioufabc.R;
 import br.edu.ufabc.padm.cardioufabc.adapters.AtividadeAdapter;
+import br.edu.ufabc.padm.cardioufabc.models.Atividade;
 
 public class AtividadesFragment extends Fragment {
     private ListView atividadesListView;
@@ -37,8 +39,18 @@ public class AtividadesFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_atividades, container, false);
 
+        final AtividadeAdapter adapter = new AtividadeAdapter(getActivity());
         atividadesListView = (ListView)view.findViewById(R.id.atividades);
-        atividadesListView.setAdapter(new AtividadeAdapter(getActivity()));
+        atividadesListView.setAdapter(adapter);
+
+        atividadesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Atividade atividade = (Atividade) adapter.getItem(position);
+
+                irParaDetalhesCorrida(atividade.getId());
+            }
+        });
 
         criarAtividadeButton = (ImageButton)view.findViewById(R.id.criar_atividade);
         criarAtividadeButton.setOnClickListener(new View.OnClickListener() {
@@ -81,5 +93,16 @@ public class AtividadesFragment extends Fragment {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void irParaDetalhesCorrida(long id) {
+        Bundle args = new Bundle();
+        args.putLong("id", id);
+        DetalhesCorridaFragment fragment = new DetalhesCorridaFragment();
+        fragment.setArguments(args);
+
+        getActivity().setTitle("Detalhes Corrida");
+        FragmentManager fragmentManager = getActivity().getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
     }
 }

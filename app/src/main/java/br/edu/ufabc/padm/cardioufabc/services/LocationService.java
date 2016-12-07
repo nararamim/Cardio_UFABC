@@ -16,12 +16,9 @@ import android.util.Log;
 
 import org.xml.sax.helpers.LocatorImpl;
 
-/**
- * Created by guilhermeosaka on 07/12/2016.
- */
-
+// obtém dados de localização do GPS
 public class LocationService extends IntentService {
-    public static volatile boolean running = true;
+    public static boolean running;
 
     private static final String LOGTAG = LocationService.class.getSimpleName();
     public static final String LOCATION_CHANGED = "LOCATION_CHANGED";
@@ -31,7 +28,6 @@ public class LocationService extends IntentService {
     public CustomLocationListener listener;
     private Location currentLocation;
 
-
     public LocationService() {
         super("LocationService");
     }
@@ -39,6 +35,7 @@ public class LocationService extends IntentService {
     @Override
     public void onCreate() {
         super.onCreate();
+        running = true;
         manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         listener = new CustomLocationListener();
 
@@ -107,6 +104,7 @@ public class LocationService extends IntentService {
         return false;
     }
 
+    // responsável por notificar (broadcast) quando a localização é alterada
     public class CustomLocationListener implements LocationListener {
         @Override
         public void onLocationChanged(Location location) {
@@ -121,6 +119,7 @@ public class LocationService extends IntentService {
                     manager.removeUpdates(this);
                     manager = null;
                     listener = null;
+                    currentLocation = null;
                     stopSelf();
                 } catch (SecurityException e) {
                     Log.e(LOGTAG, "Permissão negada", e);
