@@ -52,17 +52,6 @@ public class AtividadesFragment extends Fragment {
             }
         });
 
-        atividadesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Fragment fragment = null;
-                fragment = new ShowAtividadeFragment();
-
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
-            }
-        });
-
         criarAtividadeButton = (ImageButton)view.findViewById(R.id.criar_atividade);
         criarAtividadeButton.setOnClickListener(new View.OnClickListener() {
             @Override

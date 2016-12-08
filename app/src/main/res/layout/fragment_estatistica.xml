@@ -19,7 +19,7 @@
         app:lineLabelRotationBottom="-45"/>
 
     <ListView
-        android:id="@+id/atividades"
+        android:id="@+id/atividades_est"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 

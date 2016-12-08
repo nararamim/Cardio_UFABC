@@ -53,6 +53,7 @@ import br.edu.ufabc.padm.cardioufabc.models.Atividade;
 import br.edu.ufabc.padm.cardioufabc.models.AtividadeDAO;
 import br.edu.ufabc.padm.cardioufabc.views.AtividadesFragment;
 import br.edu.ufabc.padm.cardioufabc.views.CalendarioFragment;
+import br.edu.ufabc.padm.cardioufabc.views.ConfiguracaoFragment;
 import br.edu.ufabc.padm.cardioufabc.views.CriarAtividadeFragment;
 import br.edu.ufabc.padm.cardioufabc.views.EstatisticaFragment;
 import br.edu.ufabc.padm.cardioufabc.views.HomeFragment;
@@ -114,13 +115,6 @@ public class MainActivity extends Activity {
             selectItem(0);
         }
 
-
-
-        Atividade atividade = null;
-
-        atividade = atividade.getId(1);
-
-        ((TextView)findViewById(R.id.last_btm)).setText(atividade.getBpm());
     }
 
     @Override
@@ -159,7 +153,7 @@ public class MainActivity extends Activity {
                 fragment = new HomeFragment();
                 break;
             case "Medidor":
-                fragment = new MedidorFragment();
+                fragment = new CriarAtividadeFragment();
                 break;
             case "Estatística":
                 fragment = new EstatisticaFragment();
@@ -169,6 +163,9 @@ public class MainActivity extends Activity {
                 break;
             case "Atividades":
                 fragment = new AtividadesFragment();
+                break;
+            case "Configurações":
+                fragment = new ConfiguracaoFragment();
                 break;
         }
 
@@ -221,7 +218,7 @@ public class MainActivity extends Activity {
     public void iniciarMedicao(View view) {
         Fragment fragment = null;
 
-        fragment = new MedidorFragment();
+        fragment = new CriarAtividadeFragment();
 
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).addToBackStack(null).commit();
