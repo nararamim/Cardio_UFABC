@@ -2,12 +2,64 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="br.edu.ufabc.padm.cardioufabc.views.HomeFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <LinearLayout
+            android:layout_width="416dp"
+            android:layout_height="200dp"
+
+            android:gravity="center"
+
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/activity_vertical_margin"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            >
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="30dp"
+                android:textStyle="bold"
+                android:textSize="24dp"
+                android:text="Bem vindo ao CardioUFABC!"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="24dp"
+                android:text="Toque no botão abaixo para iniciar uma atividade ou selecione uma opção no menu."
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="334dp"
+            android:layout_height="wrap_content"
+            android:text="Iniciar medição cardíaca"
+            android:textSize="40dp"
+            android:layout_marginTop="30dp"
+            android:padding="10dp"
+            android:background="@drawable/roundedbutton"
+            android:textColor="#fff"
+            android:id="@+id/button_home_iniciar"
+            android:onClick="iniciarMedicao"/>
+    </LinearLayout>
 
 </FrameLayout>
